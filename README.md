@@ -1,4 +1,4 @@
-# 🏡 Khmer Homestay Finder
+#  Khmer Homestay Finder
 
 A web-based directory to help tourists and locals discover eco-tourism homestays, guest houses, and resorts across Cambodia (focusing on provinces like Kampot, Mondulkiri, and Kep). 
 
@@ -6,7 +6,7 @@ Built as a Year 2 University Project.
 
 ---
 
-## 👥 Team Members
+##  Team Members
 1. [Vey Roby] - Frontend & UI Designer
 2. [Preoung Nyudampanha] - Authentication & User Profiles
 3. [Try Hengleap] - Host Dashboard & Homestay CRUD
@@ -15,7 +15,7 @@ Built as a Year 2 University Project.
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 - Backend: Laravel (PHP Framework)
 - Database: MySQL
 - Frontend: HTML5, CSS3, JavaScript, Bootstrap 5
@@ -23,7 +23,7 @@ Built as a Year 2 University Project.
 
 ---
 
-## 🚀 How to Install and Run Locally
+##  How to Install and Run Locally
 
 
 ## Setup Instructions
