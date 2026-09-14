@@ -6,59 +6,60 @@ use Illuminate\Http\Request;
 
 class AmenityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $amenities = Amenity::latest()->paginate(10);
+        return view('admin.amenities.index', compact('amenities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.amenities.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:amenities,name',
+            'icon' => 'nullable|string|max:255'
+        ]);
+
+        Amenity::create([
+            'name' => $request->name,
+            'icon' => $request->icon
+        ]);
+
+        return redirect()->route('amenities.index')->with('success', 'Amenity added successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Amenity $amenity)
     {
-        //
+        return view('admin.amenities.show', compact('amenity'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Amenity $amenity)
     {
-        //
+        return view('admin.amenities.edit', compact('amenity'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Amenity $amenity)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:amenities,name,' . $amenity->id,
+            'icon' => 'nullable|string|max:255'
+        ]);
+
+        $amenity->update([
+            'name' => $request->name,
+            'icon' => $request->icon
+        ]);
+
+        return redirect()->route('amenities.index')->with('success', 'Amenity updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Amenity $amenity)
     {
-        //
+        $amenity->delete();
+        return redirect()->route('amenities.index')->with('success', 'Amenity deleted successfully!');
     }
 }
