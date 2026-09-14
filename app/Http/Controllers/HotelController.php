@@ -35,6 +35,10 @@ class HotelController extends Controller
             ->when($request->province_id, function ($query) use ($request) {
                 $query->where('province_id', $request->province_id);
             })
+            // Filter by star rating
+            ->when($request->star_rating, function ($query) use ($request) {
+                $query->where('star_rating', $request->star_rating);
+            })
             // Filter by min price
             ->when($request->min_price, function ($query) use ($request) {
                 $query->where('price_per_night', '>=', $request->min_price);

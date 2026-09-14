@@ -13,6 +13,10 @@ class Hotel extends Model
         'description',
         'price_per_night',
         'address',
+        'star_rating',
+        'website_url',
+        'facebook_url',
+        'google_maps_url',
     ];
 
     public function province()
