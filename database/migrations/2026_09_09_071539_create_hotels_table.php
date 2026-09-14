@@ -26,6 +26,10 @@ return new class extends Migration
             $table->string('google_maps_url')->nullable();
 
             $table->timestamps();
+            $table->tinyInteger('star_rating')->unsigned()->nullable();
+            $table->string('website_url')->nullable();
+            $table->string('facebook_url')->nullable();
+            $table->string('google_maps_url')->nullable();
         });
     }
 
