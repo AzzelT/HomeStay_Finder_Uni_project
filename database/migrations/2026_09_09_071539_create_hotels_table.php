@@ -19,12 +19,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price_per_night', 10, 2);
             $table->string('address')->nullable();
-
-            $table->tinyInteger('star_rating')->unsigned()->nullable();
-            $table->string('website_url')->nullable();
-            $table->string('facebook_url')->nullable();
-            $table->string('google_maps_url')->nullable();
-
             $table->timestamps();
             $table->tinyInteger('star_rating')->unsigned()->nullable();
             $table->string('website_url')->nullable();
