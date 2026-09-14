@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Amenity extends Model
+class Province extends Model
 {
     use HasFactory;
 
+    // Allow these columns to be saved via your Controller
     protected $fillable = [
         'name',
-        'icon', // If you are using icons for amenities
     ];
 
-    // An amenity can belong to many hotels (Many-to-Many)
+    // A province has many hotels
     public function hotels()
     {
-        return $this->belongsToMany(Hotel::class, 'hotel_amenities');
+        return $this->hasMany(Hotel::class);
     }
 }
