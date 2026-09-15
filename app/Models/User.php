@@ -50,7 +50,6 @@ class User extends Authenticatable
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    // Used in app.blade.php navbar: @if(Auth::user()->isAdmin())
     public function isAdmin(): bool
     {
         return $this->roles()->where('name', 'admin')->exists();
