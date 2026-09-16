@@ -280,7 +280,7 @@
                                 Leave a Review
                             </h6>
                             {{-- HengLeap wires up the submit route --}}
-                            <form action="#" method="POST">
+                            <form action="{{ route('reviews.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
                                 <div class="mb-3">

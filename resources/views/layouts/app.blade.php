@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/app-custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/auth.css') }}">
 
     @stack('styles')
 </head>
@@ -75,8 +76,10 @@
                             <button
                                 class="btn btn-outline-light text-dark d-flex align-items-center gap-2 border rounded-pill px-3 py-1 shadow-sm"
                                 type="button" data-bs-toggle="dropdown">
-                                <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
-                                    class="rounded-circle" width="32" height="32" style="object-fit: cover;">
+                                <div
+                                    style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#156d56);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;font-family:var(--font-heading)">
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                </div>
                                 <span class="fw-semibold text-truncate"
                                     style="max-width: 130px;">{{ Auth::user()->name }}</span>
                                 <i class="bi bi-chevron-down text-muted small"></i>
@@ -93,7 +96,7 @@
                                 @if (Auth::user()->isAdmin())
                                     <li>
                                         <a class="dropdown-item rounded-2 py-2 text-primary fw-semibold"
-                                            href="{{ route('admin.dashboard') }}">
+                                            href="/admin/dashboard">
                                             <i class="bi bi-speedometer2 me-2"></i> Admin Panel
                                         </a>
                                     </li>
