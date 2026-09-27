@@ -10,7 +10,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\AmenityController;
-use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 
@@ -137,17 +136,19 @@ Route::middleware(['auth', 'admin'])
         Route::resource('amenities', AmenityController::class);
 
 
-        // ── User Management ─────────────────────────────────────────────────
+       // ── User Management ─────────────────────────────────────────────────
 
-        Route::get('/users', [AdminUserController::class, 'index'])
+        Route::get('/users', [AdminController::class, 'users'])
             ->name('users.index');
 
-        Route::put('/users/{user}/ban', [AdminUserController::class, 'ban'])
-            ->name('users.ban');
+        Route::post('/users', [AdminController::class, 'storeUser'])
+            ->name('users.store');
 
-        Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])
+        Route::put('/users/{id}', [AdminController::class, 'updateUser'])
+            ->name('users.update');
+
+        Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])
             ->name('users.destroy');
-
 
         // ── Settings ─────────────────────────────────────────────────────────
 

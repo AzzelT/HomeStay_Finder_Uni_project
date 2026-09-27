@@ -9,7 +9,10 @@ class AdminUserController extends Controller
     public function index()
     {
         // Get all users except admins, latest first
-        $users = User::where('role', '!=', 'admin')->latest()->paginate(10);
+        $users = User::whereDoesntHave('roles', function ($query) {
+            $query->whereIn('name', ['admin', 'Admin']);
+        })->latest()->paginate(10);
+
         return view('admin.users.index', compact('users'));
     }
 
