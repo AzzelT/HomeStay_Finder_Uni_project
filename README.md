@@ -162,7 +162,7 @@ public/
 
 ---
 
-## 📄 License
+##  License
 
 This project was built for educational purposes as part of a university final project.
 
