@@ -691,13 +691,6 @@
                 </a>
             </li>
 
-            <li>
-                <a href="{{ route('admin.hosts') }}" class="{{ request()->routeIs('admin.hosts*') ? 'active' : '' }}">
-                    <i class="bi bi-person-badge-fill"></i>
-                    <span>Manage Hosts</span>
-                </a>
-            </li>
-
         </ul>
 
         <div class="admin-sidebar-bottom">

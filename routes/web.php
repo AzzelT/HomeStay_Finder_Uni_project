@@ -14,57 +14,73 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 
 
-// ─── Public Routes ────────────────────────────────────────────────────────────
+// =====================================================
+// Public Routes
+// =====================================================
 
-Route::get('/', [HotelController::class, 'home'])->name('home');
+Route::get('/', [HotelController::class, 'home'])
+    ->name('home');
 
-Route::get('/hotels', [HotelController::class, 'search'])->name('hotels.index');
+Route::get('/hotels', [HotelController::class, 'search'])
+    ->name('hotels.index');
 
-Route::get('/hotels/{id}', [HotelController::class, 'show'])->name('hotels.show');
+Route::get('/hotels/{id}', [HotelController::class, 'show'])
+    ->name('hotels.show');
 
-Route::get('/about', [ContactController::class, 'about'])->name('about');
+Route::get('/about', [ContactController::class, 'about'])
+    ->name('about');
 
-Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
+Route::get('/contact', [ContactController::class, 'contact'])
+    ->name('contact');
 
 
-// ─── Authentication Routes ───────────────────────────────────────────────────
+// =====================================================
+// Authentication
+// =====================================================
 
 Route::middleware('guest')->group(function () {
 
-    // Login
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::get('/login', [AuthController::class, 'showLogin'])
+        ->name('login');
+
     Route::post('/login', [AuthController::class, 'login']);
 
-    // Register
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::get('/register', [AuthController::class, 'showRegister'])
+        ->name('register');
+
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-// Logout
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout')
     ->middleware('auth');
 
 
-// ─── Profile Routes ──────────────────────────────────────────────────────────
+// =====================================================
+// Profile
+// =====================================================
 
-Route::middleware('auth')->prefix('profile')->group(function () {
+Route::middleware('auth')
+    ->prefix('profile')
+    ->group(function () {
 
-    Route::get('/', [ProfileController::class, 'index'])
-        ->name('profile.index');
+        Route::get('/', [ProfileController::class, 'index'])
+            ->name('profile.index');
 
-    Route::put('/update', [ProfileController::class, 'update'])
-        ->name('profile.update');
+        Route::put('/update', [ProfileController::class, 'update'])
+            ->name('profile.update');
 
-    Route::put('/password', [ProfileController::class, 'updatePassword'])
-        ->name('profile.password');
+        Route::put('/password', [ProfileController::class, 'updatePassword'])
+            ->name('profile.password');
 
-    Route::get('/reviews', [ProfileController::class, 'reviews'])
-        ->name('profile.reviews');
-});
+        Route::get('/reviews', [ProfileController::class, 'reviews'])
+            ->name('profile.reviews');
+    });
 
 
-// ─── Review Routes ───────────────────────────────────────────────────────────
+// =====================================================
+// Reviews
+// =====================================================
 
 Route::middleware('auth')->group(function () {
 
@@ -79,64 +95,85 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// ─── Admin Routes ────────────────────────────────────────────────────────────
+// =====================================================
+// Admin
+// =====================================================
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
-        // Admin Dashboard
+        // -------------------------------------------------
+        // Dashboard
+        // -------------------------------------------------
+
         Route::get('/', [AdminController::class, 'dashboard'])
             ->name('dashboard');
 
-        // ── Homestays ────────────────────────────────────────────────────────
 
+        // -------------------------------------------------
+        // Homestays
+        // -------------------------------------------------
+
+        // View all homestays
         Route::get('/homestays', [AdminController::class, 'homestays'])
             ->name('homestays');
 
+        // Add homestay form
+        Route::get('/homestays/create', [AdminController::class, 'createHomestay'])
+            ->name('homestays.create');
+
+        // Save new homestay
+        Route::post('/homestays', [AdminController::class, 'storeHomestay'])
+            ->name('homestays.store');
+
+        // Edit homestay form
         Route::get('/homestays/{id}/edit', [AdminController::class, 'editHomestay'])
             ->name('homestays.edit');
 
+        // Update homestay
         Route::put('/homestays/{id}', [AdminController::class, 'updateHomestay'])
             ->name('homestays.update');
 
+        // Delete homestay
         Route::delete('/homestays/{id}', [AdminController::class, 'destroyHomestay'])
             ->name('homestays.destroy');
 
 
-        // ── Admin Reviews ───────────────────────────────────────────────────
+        // -------------------------------------------------
+        // Reviews
+        // -------------------------------------------------
 
-        Route::get('/reviews', [AdminController::class, 'reviews'])
-            ->name('reviews');
+        Route::get('/reviews', [AdminController::class, 'reviews'])->name('reviews');
+
+        Route::get('/reviews/{id}/edit', [AdminController::class, 'editReview'])
+            ->name('reviews.edit');
+
+        Route::put('/reviews/{id}', [AdminController::class, 'updateReview'])
+            ->name('reviews.update');
 
         Route::delete('/reviews/{id}', [AdminController::class, 'destroyReview'])
             ->name('reviews.destroy');
 
 
-        // ── Hosts ───────────────────────────────────────────────────────────
-
-        Route::get('/hosts', [AdminController::class, 'hosts'])
-            ->name('hosts');
-
-        Route::post('/hosts/{id}', [AdminController::class, 'assignHost'])
-            ->name('hosts.assign');
-
-        Route::delete('/hosts/{id}', [AdminController::class, 'removeHost'])
-            ->name('hosts.remove');
-
-
-        // ── Provinces ───────────────────────────────────────────────────────
+        // -------------------------------------------------
+        // Provinces
+        // -------------------------------------------------
 
         Route::resource('provinces', ProvinceController::class);
 
 
-        // ── Amenities ───────────────────────────────────────────────────────
+        // -------------------------------------------------
+        // Amenities
+        // -------------------------------------------------
 
         Route::resource('amenities', AmenityController::class);
 
 
-       // ── User Management ─────────────────────────────────────────────────
+        // -------------------------------------------------
+        // User Management
+        // -------------------------------------------------
 
         Route::get('/users', [AdminController::class, 'users'])
             ->name('users.index');
@@ -150,7 +187,10 @@ Route::middleware(['auth', 'admin'])
         Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])
             ->name('users.destroy');
 
-        // ── Settings ─────────────────────────────────────────────────────────
+
+        // -------------------------------------------------
+        // Settings
+        // -------------------------------------------------
 
         Route::get('/settings', [SettingController::class, 'index'])
             ->name('settings.index');
