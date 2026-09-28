@@ -12,9 +12,21 @@
 </head>
 <body>
     <div class="maintenance-card">
-        <h1 class="display-4 text-success">️ Under Maintenance</h1>
+        <h1 class="display-4 text-success">🛠️ Under Maintenance</h1>
         <p class="lead text-muted">We are currently updating the HomestayFinder platform.</p>
         <p>Please check back in a few minutes.</p>
+
+        {{-- Add this Logout Button --}}
+        @auth
+            <div class="mt-4">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-secondary">
+                        Log Out
+                    </button>
+                </form>
+            </div>
+        @endauth
     </div>
 </body>
 </html>
