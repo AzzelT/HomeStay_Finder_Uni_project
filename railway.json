@@ -1,8 +1,9 @@
 {
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "composer install --no-dev --optimize-autoloader"
   },
   "deploy": {
-    "startCommand": "php artisan migrate --force && php artisan db:seed --force && php -S 0.0.0.0:$PORT -t public"
+    "startCommand": "php artisan migrate --force && php artisan db:seed --force && php artisan storage:link && php -S 0.0.0.0:$PORT -t public"
   }
 }
