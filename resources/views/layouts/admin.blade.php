@@ -676,6 +676,14 @@
             </li>
 
             <li>
+                <a href="{{ route('admin.amenities.index') }}"
+                    class="{{ request()->routeIs('admin.amenities*') ? 'active' : '' }}">
+                    <i class="bi bi-list-check"></i>
+                    <span>Manage Amenities</span>
+                </a>
+            </li>
+
+            <li>
                 <a href="{{ route('admin.reviews') }}"
                     class="{{ request()->routeIs('admin.reviews*') ? 'active' : '' }}">
                     <i class="bi bi-star-fill"></i>
