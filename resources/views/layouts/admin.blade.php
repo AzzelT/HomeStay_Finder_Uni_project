@@ -40,9 +40,7 @@
             --font-body: 'Plus Jakarta Sans', sans-serif;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -52,24 +50,16 @@
             font-size: 14px;
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
+        h1, h2, h3, h4, h5, h6 {
             font-family: var(--font-heading);
             color: var(--dark);
         }
 
-        a {
-            text-decoration: none;
-        }
+        a { text-decoration: none; }
 
         /* =========================
            SIDEBAR
         ========================= */
-
         .admin-sidebar {
             position: fixed;
             top: 0;
@@ -114,9 +104,7 @@
             font-size: 21px;
         }
 
-        .admin-brand-text span {
-            color: var(--accent);
-        }
+        .admin-brand-text span { color: var(--accent); }
 
         .admin-sidebar-label {
             padding: 24px 24px 10px;
@@ -133,9 +121,7 @@
             list-style: none;
         }
 
-        .admin-nav li {
-            margin-bottom: 4px;
-        }
+        .admin-nav li { margin-bottom: 4px; }
 
         .admin-nav a {
             display: flex;
@@ -166,9 +152,7 @@
             font-weight: 700;
         }
 
-        .admin-nav a.active i {
-            color: var(--accent);
-        }
+        .admin-nav a.active i { color: var(--accent); }
 
         .admin-sidebar-bottom {
             margin-top: auto;
@@ -194,7 +178,6 @@
         /* =========================
            MAIN AREA
         ========================= */
-
         .admin-main {
             margin-left: 250px;
             min-height: 100vh;
@@ -203,7 +186,6 @@
         /* =========================
            TOPBAR
         ========================= */
-
         .admin-topbar {
             height: 82px;
             background: white;
@@ -263,10 +245,7 @@
         /* =========================
            CONTENT
         ========================= */
-
-        .admin-content {
-            padding: 32px;
-        }
+        .admin-content { padding: 32px; }
 
         .admin-page-head {
             display: flex;
@@ -289,9 +268,8 @@
         }
 
         /* =========================
-           CARDS
+           CARDS & STATS
         ========================= */
-
         .admin-card {
             background: white;
             border: 1px solid var(--border);
@@ -314,13 +292,7 @@
             font-weight: 700;
         }
 
-        .admin-card-body {
-            padding: 20px;
-        }
-
-        /* =========================
-           STAT CARDS
-        ========================= */
+        .admin-card-body { padding: 20px; }
 
         .admin-stat-card {
             position: relative;
@@ -365,9 +337,8 @@
         }
 
         /* =========================
-           BADGES
+           BADGES & BUTTONS
         ========================= */
-
         .admin-badge {
             display: inline-flex;
             align-items: center;
@@ -378,24 +349,9 @@
             font-weight: 600;
         }
 
-        .badge-green {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .badge-gold {
-            background: #fbf5df;
-            color: #94751b;
-        }
-
-        .badge-gray {
-            background: #f0f2f1;
-            color: #65716c;
-        }
-
-        /* =========================
-           BUTTONS
-        ========================= */
+        .badge-green { background: var(--primary-light); color: var(--primary); }
+        .badge-gold { background: #fbf5df; color: #94751b; }
+        .badge-gray { background: #f0f2f1; color: #65716c; }
 
         .admin-btn {
             display: inline-flex;
@@ -411,56 +367,19 @@
             transition: .2s ease;
         }
 
-        .admin-btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .admin-btn-primary:hover {
-            background: var(--primary-dark);
-            color: white;
-            transform: translateY(-1px);
-        }
-
-        .admin-btn-gold {
-            background: var(--accent);
-            color: var(--primary);
-        }
-
-        .admin-btn-gold:hover {
-            background: #c49f2d;
-            color: var(--primary);
-        }
-
-        .admin-btn-light {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .admin-btn-light:hover {
-            background: #d8eee8;
-            color: var(--primary);
-        }
-
-        .admin-btn-danger {
-            background: #fff0f0;
-            color: #b42318;
-        }
-
-        .admin-btn-danger:hover {
-            background: #ffe1e1;
-            color: #a51b12;
-        }
+        .admin-btn-primary { background: var(--primary); color: white; }
+        .admin-btn-primary:hover { background: var(--primary-dark); color: white; transform: translateY(-1px); }
+        .admin-btn-gold { background: var(--accent); color: var(--primary); }
+        .admin-btn-gold:hover { background: #c49f2d; color: var(--primary); }
+        .admin-btn-light { background: var(--primary-light); color: var(--primary); }
+        .admin-btn-light:hover { background: #d8eee8; color: var(--primary); }
+        .admin-btn-danger { background: #fff0f0; color: #b42318; }
+        .admin-btn-danger:hover { background: #ffe1e1; color: #a51b12; }
 
         /* =========================
-           TABLE
+           TABLE & FORMS
         ========================= */
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
+        .admin-table { width: 100%; border-collapse: collapse; }
         .admin-table th {
             padding: 12px 20px;
             background: #fafcfb;
@@ -472,7 +391,6 @@
             letter-spacing: .6px;
             text-align: left;
         }
-
         .admin-table td {
             padding: 14px 20px;
             border-bottom: 1px solid var(--border);
@@ -480,18 +398,8 @@
             font-size: 12px;
             vertical-align: middle;
         }
-
-        .admin-table tr:last-child td {
-            border-bottom: 0;
-        }
-
-        .admin-table tr:hover td {
-            background: #fcfdfd;
-        }
-
-        /* =========================
-           FORMS
-        ========================= */
+        .admin-table tr:last-child td { border-bottom: 0; }
+        .admin-table tr:hover td { background: #fcfdfd; }
 
         .admin-form-label {
             display: block;
@@ -519,20 +427,11 @@
             box-shadow: 0 0 0 3px rgba(14, 75, 60, .08);
         }
 
-        /* =========================
-           ALERTS
-        ========================= */
-
-        .admin-alert {
-            border: 0;
-            border-radius: 10px;
-            font-size: 13px;
-        }
+        .admin-alert { border: 0; border-radius: 10px; font-size: 13px; }
 
         /* =========================
            MOBILE
         ========================= */
-
         .admin-mobile-button {
             display: none;
             border: 0;
@@ -553,78 +452,25 @@
         }
 
         @media (max-width: 991px) {
-
-            .admin-sidebar {
-                transform: translateX(-100%);
-            }
-
-            .admin-sidebar.show {
-                transform: translateX(0);
-            }
-
-            .admin-overlay.show {
-                display: block;
-            }
-
-            .admin-main {
-                margin-left: 0;
-            }
-
-            .admin-mobile-button {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .admin-topbar {
-                padding: 0 20px;
-            }
-
-            .admin-content {
-                padding: 24px 20px;
-            }
+            .admin-sidebar { transform: translateX(-100%); }
+            .admin-sidebar.show { transform: translateX(0); }
+            .admin-overlay.show { display: block; }
+            .admin-main { margin-left: 0; }
+            .admin-mobile-button { display: inline-flex; align-items: center; justify-content: center; }
+            .admin-topbar { padding: 0 20px; }
+            .admin-content { padding: 24px 20px; }
         }
 
         @media (max-width: 575px) {
-
-            .admin-content {
-                padding: 20px 15px;
-            }
-
-            .admin-topbar {
-                height: 70px;
-                padding: 0 15px;
-            }
-
-            .admin-page-title {
-                font-size: 17px;
-            }
-
-            .admin-page-subtitle {
-                display: none;
-            }
-
-            .admin-user-name,
-            .admin-user-role {
-                display: none;
-            }
-
-            .admin-page-head {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .admin-page-head h1 {
-                font-size: 23px;
-            }
-
-            .admin-table {
-                min-width: 650px;
-            }
-
-            .admin-card {
-                overflow-x: auto;
-            }
+            .admin-content { padding: 20px 15px; }
+            .admin-topbar { height: 70px; padding: 0 15px; }
+            .admin-page-title { font-size: 17px; }
+            .admin-page-subtitle { display: none; }
+            .admin-user-name, .admin-user-role { display: none; }
+            .admin-page-head { align-items: flex-start; flex-direction: column; }
+            .admin-page-head h1 { font-size: 23px; }
+            .admin-table { min-width: 650px; }
+            .admin-card { overflow-x: auto; }
         }
 
         @stack('styles')
@@ -646,7 +492,6 @@
                 <span class="admin-brand-icon">
                     <i class="bi bi-house-heart-fill"></i>
                 </span>
-
                 <span class="admin-brand-text">
                     Homestay<span>Finder</span>
                 </span>
@@ -699,6 +544,15 @@
                 </a>
             </li>
 
+            {{-- Site Settings Link --}}
+            <li>
+                <a href="{{ route('admin.settings.index') }}"
+                    class="{{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
+                    <i class="bi bi-gear-fill"></i>
+                    <span>Site Settings</span>
+                </a>
+            </li>
+
         </ul>
 
         <div class="admin-sidebar-bottom">
@@ -710,22 +564,21 @@
 
             <form method="POST" action="{{ route('logout') }}" class="mt-1">
                 @csrf
-
                 <button type="submit"
                     style="
-                            width:100%;
-                            border:0;
-                            background:transparent;
-                            text-align:left;
-                            display:flex;
-                            align-items:center;
-                            gap:12px;
-                            padding:11px 14px;
-                            border-radius:10px;
-                            color:rgba(255,255,255,.70);
-                            font-family:var(--font-body);
-                            font-size:13px;
-                        ">
+                        width:100%;
+                        border:0;
+                        background:transparent;
+                        text-align:left;
+                        display:flex;
+                        align-items:center;
+                        gap:12px;
+                        padding:11px 14px;
+                        border-radius:10px;
+                        color:rgba(255,255,255,.70);
+                        font-family:var(--font-body);
+                        font-size:13px;
+                    ">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Logout</span>
                 </button>
@@ -829,5 +682,4 @@
     @stack('scripts')
 
 </body>
-
 </html>

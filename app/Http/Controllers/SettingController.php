@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Models\Setting;
 
 class SettingController extends Controller
 {
     public function index()
     {
-        // Fetch the current maintenance mode status (defaults to false if not set)
-        $maintenanceSetting = Setting::where('key', 'maintenance_mode')->first();
-        $isMaintenance = $maintenanceSetting ? (bool) $maintenanceSetting->value : false;
+        $setting = Setting::where('key', 'maintenance_mode')->first();
+        $isMaintenance = $setting ? (bool) $setting->value : false;
 
         return view('admin.settings.index', compact('isMaintenance'));
     }
@@ -19,16 +18,15 @@ class SettingController extends Controller
     public function toggleMaintenance(Request $request)
     {
         $request->validate([
-            'is_maintenance' => 'required|boolean'
+        'is_maintenance' => 'nullable|boolean'
         ]);
 
-        // Update or create the setting in the database
+        // Save to database
         Setting::updateOrCreate(
             ['key' => 'maintenance_mode'],
-            ['value' => $request->is_maintenance]
+            ['value' => $request->is_maintenance ? '1' : '0']
         );
 
-        $status = $request->is_maintenance ? 'enabled' : 'disabled';
-        return back()->with('success', "Maintenance mode has been {$status}.");
+        return back()->with('success', 'Maintenance mode updated!');
     }
 }
