@@ -12,11 +12,8 @@
         </div>
 
         <a href="{{ route('admin.homestays') }}" class="admin-btn admin-btn-light">
-
             <i class="bi bi-arrow-left"></i>
-
             Back
-
         </a>
 
     </div>
@@ -187,34 +184,52 @@
                     </div>
 
 
-                    {{-- Star Rating --}}
-                    <div class="col-md-4">
+                    {{-- Amenities --}}
+                    <div class="col-12">
 
                         <label class="form-label fw-semibold">
-                            Star Rating
+                            Amenities
                         </label>
 
-                        <select name="star_rating" class="form-select">
+                        @if ($amenities->count())
 
-                            <option value="">
-                                No rating
-                            </option>
+                            <div class="row g-3">
 
-                            @for ($i = 1; $i <= 5; $i++)
-                                <option value="{{ $i }}" {{ old('star_rating') == $i ? 'selected' : '' }}>
+                                @foreach ($amenities as $amenity)
+                                    <div class="col-md-4 col-sm-6">
 
-                                    {{ $i }} Star{{ $i > 1 ? 's' : '' }}
+                                        <div class="form-check">
 
-                                </option>
-                            @endfor
+                                            <input class="form-check-input" type="checkbox" name="amenities[]"
+                                                value="{{ $amenity->id }}" id="amenity{{ $amenity->id }}"
+                                                {{ in_array($amenity->id, old('amenities', [])) ? 'checked' : '' }}>
 
-                        </select>
+                                            <label class="form-check-label" for="amenity{{ $amenity->id }}">
+
+                                                {{ $amenity->name }}
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        @else
+                            <div class="alert alert-info mb-0">
+                                No amenities available yet.
+                                Please add amenities from
+                                <strong>Manage Amenities</strong>.
+                            </div>
+
+                        @endif
 
                     </div>
 
 
                     {{-- Website --}}
-                    <div class="col-md-8">
+                    <div class="col-md-6">
 
                         <label class="form-label fw-semibold">
                             Website URL
@@ -240,7 +255,7 @@
 
 
                     {{-- Google Maps --}}
-                    <div class="col-md-6">
+                    <div class="col-12">
 
                         <label class="form-label fw-semibold">
                             Google Maps URL

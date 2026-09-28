@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
-use App\Models\User;
 use App\Models\Hotel;
 use App\Models\HotelImage;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,9 +17,11 @@ class AdminController extends Controller
         abort_unless(auth()->check() && auth()->user()->isAdmin(), 403);
     }
 
-    // =========================
-    // Dashboard
-    // =========================
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
 
     public function dashboard()
     {
@@ -54,11 +56,12 @@ class AdminController extends Controller
         );
     }
 
-    // =========================
-    // Reviews
-    // =========================
+    /*
+    |--------------------------------------------------------------------------
+    | Reviews
+    |--------------------------------------------------------------------------
+    */
 
-// Reviews
     public function reviews()
     {
         $this->authorizeAdmin();
@@ -133,9 +136,11 @@ class AdminController extends Controller
         return back()->with('success', 'Review deleted successfully.');
     }
 
-    // =========================
-    // Users
-    // =========================
+    /*
+    |--------------------------------------------------------------------------
+    | Users
+    |--------------------------------------------------------------------------
+    */
 
     public function users()
     {
@@ -186,7 +191,7 @@ class AdminController extends Controller
                 'required',
                 'email',
                 'max:255',
-                'unique:users,email,' . $user->id
+                'unique:users,email,' . $user->id,
             ],
             'password' => ['nullable', 'string', 'min:6'],
         ]);
@@ -218,9 +223,11 @@ class AdminController extends Controller
         return back()->with('success', 'User deleted successfully.');
     }
 
-    // =========================
-    // Homestays
-    // =========================
+    /*
+    |--------------------------------------------------------------------------
+    | Homestays
+    |--------------------------------------------------------------------------
+    */
 
     public function homestays()
     {
@@ -240,7 +247,6 @@ class AdminController extends Controller
         return view('admin.homestays', compact('homestays'));
     }
 
-    // Show Add Homestay form
     public function createHomestay()
     {
         $this->authorizeAdmin();
@@ -249,85 +255,96 @@ class AdminController extends Controller
             ->orderBy('name')
             ->get();
 
-        // Hosts are still needed when creating a homestay.
         $hosts = User::whereHas('roles', function ($query) {
             $query->whereIn('name', ['host', 'Host']);
         })
             ->orderBy('name')
             ->get();
 
+        $amenities = DB::table('amenities')
+            ->orderBy('name')
+            ->get();
+
         return view(
             'admin.homestay-create',
-            compact('provinces', 'hosts')
+            compact('provinces', 'hosts', 'amenities')
         );
     }
 
-    // Store new Homestay
     public function storeHomestay(Request $request)
     {
         $this->authorizeAdmin();
 
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
             'image' => [
                 'required',
                 'image',
                 'mimes:jpeg,png,jpg,webp',
-                'max:5120'
+                'max:5120',
             ],
 
-            'description' => ['nullable', 'string'],
+            'description' => [
+                'nullable',
+                'string',
+            ],
 
             'price_per_night' => [
                 'required',
                 'numeric',
-                'min:0'
+                'min:0',
             ],
 
             'address' => [
                 'nullable',
                 'string',
-                'max:255'
+                'max:255',
             ],
 
             'province_id' => [
                 'required',
-                'exists:provinces,id'
+                'exists:provinces,id',
             ],
 
             'user_id' => [
                 'required',
-                'exists:users,id'
-            ],
-
-            'star_rating' => [
-                'nullable',
-                'integer',
-                'min:1',
-                'max:5'
+                'exists:users,id',
             ],
 
             'website_url' => [
                 'nullable',
                 'url',
-                'max:255'
+                'max:255',
             ],
 
             'facebook_url' => [
                 'nullable',
                 'url',
-                'max:255'
+                'max:255',
             ],
 
             'google_maps_url' => [
                 'nullable',
                 'url',
-                'max:255'
+                'max:255',
+            ],
+
+            'amenities' => [
+                'nullable',
+                'array',
+            ],
+
+            'amenities.*' => [
+                'integer',
+                'exists:amenities,id',
             ],
         ]);
 
-        // Create the hotel
         $hotel = Hotel::create([
             'province_id' => $data['province_id'],
             'user_id' => $data['user_id'],
@@ -335,17 +352,19 @@ class AdminController extends Controller
             'description' => $data['description'] ?? null,
             'price_per_night' => $data['price_per_night'],
             'address' => $data['address'] ?? null,
-            'star_rating' => $data['star_rating'] ?? null,
             'website_url' => $data['website_url'] ?? null,
             'facebook_url' => $data['facebook_url'] ?? null,
             'google_maps_url' => $data['google_maps_url'] ?? null,
         ]);
 
-        // Upload image
-        $imagePath = $request->file('image')
+        // Save amenities
+        $hotel->amenities()->sync($data['amenities'] ?? []);
+
+        // Save image
+        $imagePath = $request
+            ->file('image')
             ->store('hotels', 'public');
 
-        // Save image in existing hotel_images table
         HotelImage::create([
             'hotel_id' => $hotel->id,
             'image_path' => $imagePath,
@@ -356,52 +375,123 @@ class AdminController extends Controller
             ->with('success', 'Homestay added successfully.');
     }
 
-    // Edit Homestay
     public function editHomestay(int $id)
     {
         $this->authorizeAdmin();
 
         $homestay = DB::table('hotels')
             ->where('id', $id)
-            ->firstOrFail();
+            ->first();
+
+        abort_if(!$homestay, 404);
 
         $provinces = DB::table('provinces')
             ->orderBy('name')
             ->get();
 
+        // Get all available amenities
+        $amenities = DB::table('amenities')
+            ->orderBy('name')
+            ->get();
+
+        // Get amenities currently selected for this homestay
+        $selectedAmenities = DB::table('hotel_amenities')
+            ->where('hotel_id', $id)
+            ->pluck('amenity_id')
+            ->toArray();
+
         return view(
             'admin.homestay-edit',
-            compact('homestay', 'provinces')
+            compact(
+                'homestay',
+                'provinces',
+                'amenities',
+                'selectedAmenities'
+            )
         );
     }
 
-    // Update Homestay
     public function updateHomestay(Request $request, int $id)
     {
         $this->authorizeAdmin();
 
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'price_per_night' => ['required', 'numeric', 'min:0'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'province_id' => ['required', 'exists:provinces,id'],
-            'star_rating' => ['nullable', 'integer', 'min:1', 'max:5'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'description' => [
+                'nullable',
+                'string',
+            ],
+
+            'price_per_night' => [
+                'required',
+                'numeric',
+                'min:0',
+            ],
+
+            'address' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'province_id' => [
+                'required',
+                'exists:provinces,id',
+            ],
+
+            'amenities' => [
+                'nullable',
+                'array',
+            ],
+
+            'amenities.*' => [
+                'integer',
+                'exists:amenities,id',
+            ],
         ]);
 
+        // Update homestay information
         DB::table('hotels')
             ->where('id', $id)
             ->update([
-                ...$data,
+                'name' => $data['name'],
+                'description' => $data['description'] ?? null,
+                'price_per_night' => $data['price_per_night'],
+                'address' => $data['address'] ?? null,
+                'province_id' => $data['province_id'],
                 'updated_at' => now(),
             ]);
+
+        // Replace existing amenities
+        DB::table('hotel_amenities')
+            ->where('hotel_id', $id)
+            ->delete();
+
+        if (!empty($data['amenities'])) {
+            $amenityRows = [];
+
+            foreach ($data['amenities'] as $amenityId) {
+                $amenityRows[] = [
+                    'hotel_id' => $id,
+                    'amenity_id' => $amenityId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            DB::table('hotel_amenities')->insert($amenityRows);
+        }
 
         return redirect()
             ->route('admin.homestays')
             ->with('success', 'Homestay updated successfully.');
     }
 
-    // Delete Homestay
     public function destroyHomestay(int $id)
     {
         $this->authorizeAdmin();
@@ -410,9 +500,6 @@ class AdminController extends Controller
             ->where('id', $id)
             ->delete();
 
-        return back()->with(
-            'success',
-            'Homestay deleted successfully.'
-        );
+        return back()->with('success', 'Homestay deleted successfully.');
     }
 }
